@@ -1,0 +1,44 @@
+{
+  "name": "walletconnect-demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "start": "next start",
+    "build": "next build",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "2.1.1",
+    "@chakra-ui/react": "2.8.2",
+    "@emotion/react": "11.11.3",
+    "@emotion/styled": "11.11.0",
+    "@sentry/browser": "7.92.0",
+    "@sentry/react": "7.92.0",
+    "@solana/wallet-adapter-backpack": "0.1.14",
+    "@solana/wallet-adapter-wallets": "0.19.32",
+    "@solana/web3.js": "1.91.7",
+    "@tanstack/react-query": "5.24.8",
+    "@wagmi/connectors": "5.0.8",
+    "@walletconnect/utils": "2.13.1",
+    "@web3modal/ethers": "5.0.6",
+    "@web3modal/siwe": "5.0.6",
+    "@web3modal/solana": "5.0.6",
+    "@web3modal/wagmi": "5.0.6",
+    "ethers": "6.13.0",
+    "framer-motion": "10.17.9",
+    "next": "14.2.3",
+    "next-auth": "4.24.5",
+    "react-icons": "4.12.0",
+    "rpc-websockets": "7.11.0",
+    "valtio": "1.11.2",
+    "viem": "2.10.3",
+    "wagmi": "2.9.10"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-cloudwatch": "3.509.0",
+    "@mailsac/api": "1.0.5",
+    "@types/react": "18.3.3",
+    "dotenv": "16.3.1"
+  }
+}
