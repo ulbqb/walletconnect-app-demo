@@ -37,5 +37,5 @@
     ".turbo",
     "coverage"
   ],
-  "include": ["next-env.d.ts", "src", "tests", "playwright.config.ts"]
+  "include": ["next-env.d.ts", "src"]
 }
