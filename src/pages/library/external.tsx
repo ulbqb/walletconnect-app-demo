@@ -7,7 +7,7 @@ import { WagmiTests } from "../../components/Wagmi/WagmiTests";
 import { ThemeStore } from "../../utils/StoreUtil";
 import { ConstantsUtil } from "../../utils/ConstantsUtil";
 import { WagmiModalInfo } from "../../components/Wagmi/WagmiModalInfo";
-import { mainnet } from "viem/chains";
+import { klaytnBaobab } from "wagmi/chains";
 import { walletConnect } from "../../utils/ConnectorUtil";
 
 const queryClient = new QueryClient();
@@ -28,10 +28,10 @@ const connectors = [
 ];
 
 const wagmiConfig = createConfig({
-  chains: [mainnet],
+  chains: [klaytnBaobab],
   connectors,
   transports: {
-    1: http(),
+    1001: http(),
   },
   multiInjectedProviderDiscovery: false,
 });

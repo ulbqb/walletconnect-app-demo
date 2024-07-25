@@ -15,6 +15,7 @@ import {
   sepolia,
   optimismSepolia,
   baseSepolia,
+  klaytnBaobab,
   type Chain
 } from 'wagmi/chains'
 import { ConstantsUtil } from './ConstantsUtil'
@@ -35,7 +36,8 @@ export const WagmiConstantsUtil = {
     aurora,
     sepolia,
     optimismSepolia,
-    baseSepolia
+    baseSepolia,
+    klaytnBaobab
   ] as [Chain, ...Chain[]]
 }
 
