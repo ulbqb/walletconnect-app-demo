@@ -71,8 +71,8 @@ export type WalletConnectParameters = Evaluate<
   ExactPartial<Pick<EthereumProviderOptions, 'showQrModal'>>
 >
 
-walletConnect.type = 'MiniWallet' as const
-export function walletConnect(parameters: WalletConnectParameters) {
+miniWallet.type = 'MiniWallet' as const
+export function miniWallet(parameters: WalletConnectParameters) {
   const isNewChainsStale = parameters.isNewChainsStale ?? true
 
   type Provider = Awaited<ReturnType<(typeof EthereumProvider)['init']>>
@@ -108,7 +108,7 @@ export function walletConnect(parameters: WalletConnectParameters) {
   return createConnector<Provider, Properties, StorageItem>((config) => ({
     id: 'MiniWallet',
     name: 'Mini Wallet',
-    type: walletConnect.type,
+    type: miniWallet.type,
     icon: '/wallet.png',
     async setup() {
       const provider = await this.getProvider().catch(() => null)

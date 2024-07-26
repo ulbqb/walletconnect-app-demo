@@ -1,184 +1,79 @@
-import {
-  Heading,
-  Card,
-  CardHeader,
-  CardBody,
-  Stack,
-  StackDivider,
-  Box,
-  Text,
-  Button,
-  Link,
-} from "@chakra-ui/react";
-import { IoArrowForward } from "react-icons/io5";
-import {
-  wagmiSdkOptions,
-  ethersSdkOptions,
-  solanaSdkOptions,
-} from "../utils/DataUtil";
-import { RandomLink } from "../components/RandomLink";
+import { createWeb3Modal } from "@web3modal/wagmi/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { WagmiProvider, createConfig, http } from "wagmi";
+import { Web3ModalButtons } from "../components/Web3ModalButtons";
+import { WagmiTests } from "../components/Wagmi/WagmiTests";
+import { ThemeStore } from "../utils/StoreUtil";
+import { ConstantsUtil } from "../utils/ConstantsUtil";
+import { WagmiModalInfo } from "../components/Wagmi/WagmiModalInfo";
+import { klaytnBaobab } from "wagmi/chains";
+import { miniWallet } from "../utils/ConnectorUtil";
+import { walletConnect } from "wagmi/connectors";
 
-export default function HomePage() {
-  return (
-    <>
-      <Card marginTop={10}>
-        <CardHeader>
-          <Heading size="md">External</Heading>
-        </CardHeader>
+const queryClient = new QueryClient();
 
-        <CardBody>
-          <Stack divider={<StackDivider />} spacing="4">
-            <Box>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Box>
-                  <Heading size="xs" textTransform="uppercase">
-                    External
-                  </Heading>
-                  <Text pt="2" fontSize="sm">
-                    Configuration using custom connectors
-                  </Text>
-                </Box>
-                <RandomLink hrefs={["/library/external", "/library/external"]}>
-                  <Button rightIcon={<IoArrowForward />}>Go</Button>
-                </RandomLink>
-              </Stack>
-            </Box>
-          </Stack>
-        </CardBody>
-      </Card>
+const connectors = [
+  miniWallet({
+    projectId: ConstantsUtil.ProjectId,
+    metadata: {
+      name: "WalletConnect App Demo",
+      description: "WalletConnect App Demo",
+      url: "https://walletconnect-app-demo.vercel.app",
+      icons: [
+        "https://developers.line.biz/assets/img/icons/docs/light/hover/liff.svg",
+      ],
+    },
+    showQrModal: false,
+  }),
+  walletConnect({
+    projectId: ConstantsUtil.ProjectId,
+    metadata: {
+      name: "WalletConnect App Demo",
+      description: "WalletConnect App Demo",
+      url: "https://walletconnect-app-demo.vercel.app",
+      icons: [
+        "https://developers.line.biz/assets/img/icons/docs/light/hover/liff.svg",
+      ],
+    },
+    showQrModal: false,
+  }),
+];
 
-      <Card marginTop={10}>
-        <CardHeader>
-          <Heading size="md">Testing</Heading>
-        </CardHeader>
+const wagmiConfig = createConfig({
+  chains: [klaytnBaobab],
+  connectors,
+  transports: {
+    1001: http(),
+  },
+  multiInjectedProviderDiscovery: false,
+});
 
-        <CardBody>
-          <Stack divider={<StackDivider />} spacing="4">
-            <Box>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Box>
-                  <Heading size="xs" textTransform="uppercase">
-                    Testing
-                  </Heading>
-                  <Text pt="2" fontSize="sm">
-                    Configuration with all features enabled and randomly using
-                    ethers or wagmi
-                  </Text>
-                </Box>
-                <RandomLink
-                  hrefs={["/library/wagmi-all", "/library/ethers-all"]}
-                >
-                  <Button rightIcon={<IoArrowForward />}>Go</Button>
-                </RandomLink>
-              </Stack>
-            </Box>
-          </Stack>
-        </CardBody>
-      </Card>
+const modal = createWeb3Modal({
+  wagmiConfig,
+  projectId: ConstantsUtil.ProjectId,
+  enableAnalytics: true,
+  metadata: ConstantsUtil.Metadata,
+  termsConditionsUrl: "https://walletconnect.com/terms",
+  privacyPolicyUrl: "https://walletconnect.com/privacy",
+});
 
-      <Card marginTop={10}>
-        <CardHeader>
-          <Heading size="md">Wagmi</Heading>
-        </CardHeader>
+ThemeStore.setModal(modal);
 
-        <CardBody>
-          <Stack divider={<StackDivider />} spacing="4">
-            {wagmiSdkOptions.map((option) => (
-              <Box key={option.link}>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Box>
-                    <Heading size="xs" textTransform="uppercase">
-                      {option.title}
-                    </Heading>
-                    <Text pt="2" fontSize="sm">
-                      {option.description}
-                    </Text>
-                  </Box>
-                  <Link href={option.link}>
-                    <Button rightIcon={<IoArrowForward />}>Go</Button>
-                  </Link>
-                </Stack>
-              </Box>
-            ))}
-          </Stack>
-        </CardBody>
-      </Card>
+export default function Wagmi() {
+  const [ready, setReady] = useState(false);
 
-      <Card marginTop={10} marginBottom={10}>
-        <CardHeader>
-          <Heading size="md">Ethers</Heading>
-        </CardHeader>
+  useEffect(() => {
+    setReady(true);
+  }, []);
 
-        <CardBody>
-          <Stack divider={<StackDivider />} spacing="4">
-            {ethersSdkOptions.map((option) => (
-              <Box key={option.link}>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Box>
-                    <Heading size="xs" textTransform="uppercase">
-                      {option.title}
-                    </Heading>
-                    <Text pt="2" fontSize="sm">
-                      {option.description}
-                    </Text>
-                  </Box>
-                  <Link href={option.link}>
-                    <Button rightIcon={<IoArrowForward />}>Go</Button>
-                  </Link>
-                </Stack>
-              </Box>
-            ))}
-          </Stack>
-        </CardBody>
-      </Card>
-
-      <Card marginTop={10} marginBottom={10}>
-        <CardHeader>
-          <Heading size="md">Solana</Heading>
-        </CardHeader>
-
-        <CardBody>
-          <Stack divider={<StackDivider />} spacing="4">
-            {solanaSdkOptions.map((option) => (
-              <Box key={option.link}>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Box>
-                    <Heading size="xs" textTransform="uppercase">
-                      {option.title}
-                    </Heading>
-                    <Text pt="2" fontSize="sm">
-                      {option.description}
-                    </Text>
-                  </Box>
-                  <Link href={option.link}>
-                    <Button rightIcon={<IoArrowForward />}>Go</Button>
-                  </Link>
-                </Stack>
-              </Box>
-            ))}
-          </Stack>
-        </CardBody>
-      </Card>
-    </>
-  );
+  return ready ? (
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <Web3ModalButtons />
+        <WagmiModalInfo />
+        <WagmiTests />
+      </QueryClientProvider>
+    </WagmiProvider>
+  ) : null;
 }
