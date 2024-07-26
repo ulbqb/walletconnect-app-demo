@@ -3,7 +3,7 @@ import { parseGwei, type Address } from 'viem'
 import { useEstimateGas, useSendTransaction, useAccount } from 'wagmi'
 import { vitalikEthAddress } from '../../utils/DataUtil'
 import { useCallback, useState } from 'react'
-import { optimism, optimismSepolia, sepolia } from 'wagmi/chains'
+import { optimism, optimismSepolia, sepolia, klaytnBaobab } from 'wagmi/chains'
 import { useChakraToast } from '../Toast'
 
 const TEST_TX = {
@@ -55,7 +55,12 @@ export function WagmiTransactionTest() {
     }
   }, [sendTransaction, prepareError])
 
-  const allowedChains = [sepolia.id, optimism.id, optimismSepolia.id] as number[]
+  const allowedChains = [
+    sepolia.id,
+    optimism.id,
+    optimismSepolia.id,
+    klaytnBaobab.id,
+  ] as number[];
 
   return allowedChains.includes(Number(chain?.id)) && status === 'connected' ? (
     <Stack direction={['column', 'column', 'row']}>
